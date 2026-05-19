@@ -2,6 +2,8 @@ PACKAGE_NAME = vegetation-conversion
 ENVIRONMENT_NAME = $(PACKAGE_NAME)
 DOCKER_IMAGE_NAME = $(PACKAGE_NAME)
 
+.PHONY: clean test build twine-upload dist remove-environment install uninstall reinstall environment colima-start docker-build docker-build-environment docker-build-installation docker-interactive docker-remove
+
 clean:
 	rm -rf *.o *.out *.log
 	rm -rf build/
@@ -20,9 +22,9 @@ twine-upload:
 	twine upload dist/*
 
 dist:
-	make clean
-	make build
-	make twine-upload
+	$(MAKE) clean
+	$(MAKE) build
+	$(MAKE) twine-upload
 
 remove-environment:
 	mamba env remove -y -n $(ENVIRONMENT_NAME)
@@ -34,8 +36,8 @@ uninstall:
 	pip uninstall $(PACKAGE_NAME)
 
 reinstall:
-	make uninstall
-	make install
+	$(MAKE) uninstall
+	$(MAKE) install
 
 environment:
 	mamba create -y -n $(ENVIRONMENT_NAME) -c conda-forge python=3.10
