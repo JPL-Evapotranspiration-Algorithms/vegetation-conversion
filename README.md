@@ -87,13 +87,13 @@ Output is physically bounded by clipping to $[0, 1]$, where 0 denotes no absorbe
 #### Scientific Basis
 fIPAR characterizes canopy interception of incoming PAR and is frequently used in ecosystem productivity and evapotranspiration partitioning frameworks.
 
-The PT-JPL-compatible mapping first constrains NDVI to plausible bounds and then applies a linear offset:
+The PT-JPL-compatible mapping applies an empirical linear offset to the normalized difference index:
 
 $$
-fIPAR = \text{clip}(\text{clip}(NDVI, 0, 1) - 0.05, 0, 1)
+fIPAR = NDVI - 0.05
 $$
 
-The inner clipping limits NDVI to standard normalized range; subtracting 0.05 applies an empirical threshold for low-vegetation/background conditions; the outer clipping enforces physical limits for a fraction.
+Subtracting 0.05 accounts for low-vegetation or background soil conditions. While the underlying Python function bounds the final array to $[0, 1]$ to remain physically meaningful as a fraction, the core scientific baseline is defined by this linear offset.
 
 **Parameters:**
 - `NDVI`: Normalized Difference Vegetation Index as `numpy.ndarray` or `rasters.Raster`.
